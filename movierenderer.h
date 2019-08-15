@@ -45,6 +45,7 @@
 #include <QString>
 #include <QDir>
 #include <QFuture>
+#include <QTimer>
 
 class QOpenGLContext;
 class QOpenGLFramebufferObject;
@@ -101,6 +102,8 @@ private slots:
     void setProgress(int progress);
     void futureFinished();
 
+    void slotTimer();
+
 
 private:
     QOpenGLContext *m_context;
@@ -114,6 +117,9 @@ private:
     qreal m_dpr;
     QSize m_size;
     AnimationDriver *m_animationDriver;
+
+    QTimer *m_timer;
+
 
     int m_progress;
     Status m_status;
