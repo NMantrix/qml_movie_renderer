@@ -95,6 +95,10 @@ MovieRenderer::MovieRenderer(QObject *parent)
 
     m_context->makeCurrent(m_offscreenSurface);
     m_renderControl->initialize(m_context);
+
+    m_timer= new QTimer(this);
+    m_timer->setSingleShot(true);
+    connect(m_timer, SIGNAL(timeout()),this,SLOT(slotTimer()));
 }
 
 void MovieRenderer::renderMovie(const QString &qmlFile, const QString &filename, const QString &outputDirectory, const QString &outputFormat, const QSize &size, qreal devicePixelRatio, int durationMs, int fps)
@@ -277,11 +281,17 @@ void MovieRenderer::futureFinished()
     }
 }
 
+void MovieRenderer::slotTimer()
+{
+    renderNext();
+}
+
 
 bool MovieRenderer::event(QEvent *event)
 {
     if (event->type() == QEvent::UpdateRequest) {
-        renderNext();
+        //renderNext();
+        m_timer->start(200);//
         return true;
     }
 
